@@ -66,4 +66,9 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "devise" 
+gem "devise"
+gem "sassc-rails"
+gem "simple_form"
+
+gem "font-awesome-sass", "~> 6.1"
+gem "autoprefixer-rails"
