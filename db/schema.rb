@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_28_152442) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_28_165812) do
   create_table "availabilities", force: :cascade do |t|
     t.integer "vehicle_id", null: false
     t.date "start_date"
@@ -35,6 +35,28 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_28_152442) do
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_bookings_on_user_id"
     t.index ["vehicle_id"], name: "index_bookings_on_vehicle_id"
+  end
+
+  create_table "bookmarks", force: :cascade do |t|
+    t.integer "vehicle_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_bookmarks_on_user_id"
+    t.index ["vehicle_id"], name: "index_bookmarks_on_vehicle_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "vehicle_id", null: false
+    t.integer "booking_id", null: false
+    t.integer "rating"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_reviews_on_booking_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+    t.index ["vehicle_id"], name: "index_reviews_on_vehicle_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -79,5 +101,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_28_152442) do
   add_foreign_key "availabilities", "vehicles"
   add_foreign_key "bookings", "users"
   add_foreign_key "bookings", "vehicles"
+  add_foreign_key "bookmarks", "users"
+  add_foreign_key "bookmarks", "vehicles"
+  add_foreign_key "reviews", "bookings"
+  add_foreign_key "reviews", "users"
+  add_foreign_key "reviews", "vehicles"
   add_foreign_key "vehicles", "users"
 end
