@@ -73,3 +73,5 @@ gem "simple_form"
 gem "font-awesome-sass", "~> 6.1"
 gem "autoprefixer-rails"
 gem "bootstrap", "~> 5.3.3"
+
+gem 'geocoder'
