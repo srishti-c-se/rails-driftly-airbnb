@@ -59,6 +59,19 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_28_165812) do
     t.index ["vehicle_id"], name: "index_conversations_on_vehicle_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "notifiable_type", null: false
+    t.integer "notifiable_id", null: false
+    t.string "kind"
+    t.json "data"
+    t.datetime "read_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "vehicle_id", null: false
@@ -120,6 +133,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_28_165812) do
   add_foreign_key "conversations", "recipients"
   add_foreign_key "conversations", "senders"
   add_foreign_key "conversations", "vehicles"
+  add_foreign_key "notifications", "users"
   add_foreign_key "reviews", "bookings"
   add_foreign_key "reviews", "users"
   add_foreign_key "reviews", "vehicles"
