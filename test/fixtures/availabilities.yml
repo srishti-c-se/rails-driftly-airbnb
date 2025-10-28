@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  vehicle: one
+  start_date: 2025-10-28
+  end_date: 2025-10-28
+  note: MyString
+
+two:
+  vehicle: two
+  start_date: 2025-10-28
+  end_date: 2025-10-28
+  note: MyString
