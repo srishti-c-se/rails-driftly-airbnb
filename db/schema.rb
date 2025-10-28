@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_28_152442) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_28_165611) do
   create_table "availabilities", force: :cascade do |t|
     t.integer "vehicle_id", null: false
     t.date "start_date"
@@ -44,6 +44,19 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_28_152442) do
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
     t.index ["vehicle_id"], name: "index_bookmarks_on_vehicle_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "notifiable_type", null: false
+    t.integer "notifiable_id", null: false
+    t.string "kind"
+    t.json "data"
+    t.datetime "read_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -90,5 +103,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_28_152442) do
   add_foreign_key "bookings", "vehicles"
   add_foreign_key "bookmarks", "users"
   add_foreign_key "bookmarks", "vehicles"
+  add_foreign_key "notifications", "users"
   add_foreign_key "vehicles", "users"
 end
