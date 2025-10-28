@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_28_152442) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_28_173931) do
   create_table "availabilities", force: :cascade do |t|
     t.integer "vehicle_id", null: false
     t.date "start_date"
@@ -44,6 +44,31 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_28_152442) do
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
     t.index ["vehicle_id"], name: "index_bookmarks_on_vehicle_id"
+  end
+
+  create_table "conversations", force: :cascade do |t|
+    t.integer "sender_id", null: false
+    t.integer "recipient_id", null: false
+    t.integer "vehicle_id", null: false
+    t.integer "booking_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_conversations_on_booking_id"
+    t.index ["recipient_id"], name: "index_conversations_on_recipient_id"
+    t.index ["sender_id"], name: "index_conversations_on_sender_id"
+    t.index ["vehicle_id"], name: "index_conversations_on_vehicle_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.string "threadable_type", null: false
+    t.integer "threadable_id", null: false
+    t.integer "user_id", null: false
+    t.text "body"
+    t.datetime "read_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["threadable_type", "threadable_id"], name: "index_messages_on_threadable"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -90,5 +115,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_28_152442) do
   add_foreign_key "bookings", "vehicles"
   add_foreign_key "bookmarks", "users"
   add_foreign_key "bookmarks", "vehicles"
+  add_foreign_key "conversations", "bookings"
+  add_foreign_key "conversations", "recipients"
+  add_foreign_key "conversations", "senders"
+  add_foreign_key "conversations", "vehicles"
+  add_foreign_key "messages", "users"
   add_foreign_key "vehicles", "users"
 end
