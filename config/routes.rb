@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  get 'vehicles/index'
+  get 'vehicles/show'
+  get 'vehicles/new'
+  get 'vehicles/create'
+  get 'vehicles/edit'
+  get 'vehicles/update'
+  get 'vehicles/destroy'
+  get 'vehicles/nearby'
   root to: "pages#home"
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -22,5 +30,5 @@ Rails.application.routes.draw do
   get "/vehicles/nearby", to: "vehicles#nearby"
   # Renter can update vehicle details
   get "/vehicles/:id/edit", to: "vehicles#edit"
-  patch "/vehicles/:id", to: "vehicles#update"
+  patch "/vehicles/:id", to: "vehicles#update", as: :vehicle
 end

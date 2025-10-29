@@ -1,0 +1,16 @@
+<%# <h1>Vehicles#show</h1>
+<p>Find me in app/views/vehicles/show.html.erb</p> %>
+<h1><%= @vehicle.title %></h1>
+<h2>Vehicle Details:</h2>
+<p>
+  <%= @vehicle.brand %>
+  <%= @vehicle.model %>
+  <%= @vehicle.year %>
+</p>
+<p><%= @vehicle.address %></p>
+<p><%= @vehicle.seats %></p>
+<p><%= @vehicle.transmission %></p>
+<p><%= @vehicle.fuel_type %></p>
+<p><%= @vehicle.description %>
+<p>Price per day: <%= @vehicle.price_per_day %></p>
+
