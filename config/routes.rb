@@ -9,4 +9,18 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  # User can view all vehicles
+  get "/vehicles", to: "vehicles#index"
+  # User can view details of 1 vehicle and search for 1 specific vehicle
+  get "/vehicles/:id", to: "vehicles#show"
+  # Renter can register new vehicle
+  get "/vehicles/new", to: "vehicles#new"
+  post "/vehicles", to: "vehicles#create"
+  # Renter can delete a vehicle listing
+  delete "vehicles/:id", to: "vehicles#destroy"
+  # User can view vehicles near his location
+  get "/vehicles/nearby", to: "vehicles#nearby"
+  # Renter can update vehicle details
+  get "/vehicles/:id/edit", to: "vehicles#edit"
+  patch "/vehicles/:id", to: "vehicles#update"
 end
