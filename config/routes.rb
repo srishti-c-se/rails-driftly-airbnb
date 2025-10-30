@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get '/conversations', to: 'conversations#index'
+  post '/conversations/:id', to: 'conversations#show'
+  post '/users/:id/contact', to: 'conversations#create'
   root to: "pages#home"
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
