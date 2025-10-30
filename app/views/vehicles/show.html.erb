@@ -21,4 +21,12 @@
   data: {turbo_method: :delete, turbo_confirm: "Are you sure?"},
   class: 'btn btn-primary'
 %>
+<h2>Book this <%= @vehicle.title %></h2>
+<%= simple_form_for [@vehicle, @booking] do |f| %>
+  <%= f.input :start_date %>
+  <%= f.input :end_date %>
+  <%= f.input :pick_up address %>
+  <%= f.input :drop_off address %>
+  <%= f.submit %>
+<% end %>
 </div>

@@ -15,6 +15,7 @@ class VehiclesController < ApplicationController
     @vehicle = Vehicle.new(vehicle_params)
     @vehicle.save
     redirect_to vehicles_path(@vehicles), notice: 'Vehicle was successfully added.'
+    @vehicle.user = current_user
   end
 
   def edit
@@ -34,7 +35,7 @@ class VehiclesController < ApplicationController
   end
 
   def nearby
-    
+
   end
 
   private
