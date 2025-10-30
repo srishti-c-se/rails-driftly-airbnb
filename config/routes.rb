@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  get 'bookings/index'
+  get 'bookings/show'
+  get 'bookings/new'
+  get 'bookings/create'
+  get 'bookings/cancel'
+  get 'bookings/accept'
+  get 'bookings/reject'
   get 'bookmarks/index'
   get 'bookmarks/create'
   get 'bookmarks/destroy'
