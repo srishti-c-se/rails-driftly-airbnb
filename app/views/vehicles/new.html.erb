@@ -1,0 +1,25 @@
+  <%= form_with model: @vehicle do |f| %>
+  <div>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+  <%= f.label :brand %>
+  <%= f.text_field :brand %>
+  <%= f.label :model %>
+  <%= f.text_field :model %>
+  <%= f.label :year %>
+  <%= f.number_field :year %>
+  <%= f.label :address %>
+  <%= f.text_field :address %>
+  <%= f.label :price_per_day %>
+  <%= f.number_field :price_per_day %>
+  <%= f.label :seats %>
+  <%= f.number_field :seats %>
+  <%= f.label :transmission %>
+  <%= f.text_field :transmission %>
+  <%= f.label :fuel_type %>
+  <%= f.text_field :fuel_type %>
+  <%= f.label :description %>
+  <%= f.text_field :description %>
+  <%= f.submit %>
+<% end %>
