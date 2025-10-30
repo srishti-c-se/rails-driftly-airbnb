@@ -5,8 +5,9 @@
     <li>
       <%# <p><%= vehicle.title %></p>
 
-      <strong><%= link_to vehicle.title, vehicles_path(vehicle) %></strong>
+      <strong><%= link_to vehicle.title, vehicle_path(vehicle) %></strong>
     </li>
       <%= vehicle.address %>
   <% end %>
 </ul>
+<%= link_to 'Add New Vehicle', new_vehicle_path, class: 'btn btn-primary' %>

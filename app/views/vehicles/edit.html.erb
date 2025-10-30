@@ -1,8 +1,8 @@
 <%# <h1>Vehicles#edit</h1>
 <p>Find me in app/views/vehicles/edit.html.erb</p> %>
 
-<%= form_with model: @vehicle, url: vehicles_update_path(@vehicle), method: :patch do |f| %>
-  <%# <%= form_with model: @vehicle do |f| %> 
+<%= form_with model: @vehicle, url: vehicle_path(@vehicle), method: :patch do |f| %>
+  <%# <%= form_with model: @vehicle do |f| %>
   <div>
     <%= f.label :title %>
     <%= f.text_field :title %>
@@ -25,5 +25,5 @@
   <%= f.text_field :fuel_type %>
   <%= f.label :description %>
   <%= f.text_field :description %>
-  <%= f.submit %>
+  <%= f.submit Class: 'btn btn-primary' %>
 <% end %>

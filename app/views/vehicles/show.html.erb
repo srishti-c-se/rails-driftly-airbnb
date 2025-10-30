@@ -13,4 +13,12 @@
 <p><%= @vehicle.fuel_type %></p>
 <p><%= @vehicle.description %>
 <p>Price per day: <%= @vehicle.price_per_day %></p>
-
+<div>
+  <%= link_to 'vehicles Index', vehicles_path, class: 'btn btn-primary' %>
+  <%= link_to 'Edit Details', edit_vehicle_path, Class: 'btn btn-primary' %>
+  <%= link_to "Delete",
+  vehicles_path(@vehicle),
+  data: {turbo_method: :delete, turbo_confirm: "Are you sure?"},
+  class: 'btn btn-primary'
+%>
+</div>
