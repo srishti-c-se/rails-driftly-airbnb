@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'reviews/index'
+  get 'reviews/create'
   get 'bookmarks/index'
   get 'bookmarks/create'
   get 'bookmarks/destroy'
@@ -34,4 +36,10 @@ Rails.application.routes.draw do
   delete "vehicles/:id", to: "vehicles#destroy"
   # User can view vehicles near his location
   get "/vehicles/nearby", to: "vehicles#nearby"
+
+  resources :vehicles do
+    resources :reviews, only: [:index, :create]
+  end
+  # get  '/vehicles/:vehicle_id/reviews', to: 'reviews#index', as: :vehicle_reviews
+  # post '/vehicles/:vehicle_id/reviews', to: 'reviews#create'
 end
