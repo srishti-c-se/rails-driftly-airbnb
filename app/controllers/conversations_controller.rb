@@ -1,7 +1,7 @@
 class ConversationsController < ApplicationController
   before_action :authenticate_user!
   def index
-    @conversations = current_user.conversations
+    @conversations = current_user.conversations_as_sender
   end
 
   def show
