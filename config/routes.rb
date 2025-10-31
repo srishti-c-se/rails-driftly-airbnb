@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'notifications/index'
+  get 'notifications/read'
   get 'vehicles/index'
   get 'vehicles/show'
   get 'vehicles/new'
@@ -17,6 +19,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  # user can view all notification
+  get "/notifications", to: "notifications#index"
+  # user can read all notification
+  get "/notifications/:id", to: "notifications#show"
   # User can view all vehicles
   get "/vehicles", to: "vehicles#index"
   # User can view details of 1 vehicle and search for 1 specific vehicle
