@@ -1,2 +1,19 @@
-<h1>Bookings#new</h1>
-<p>Find me in app/views/bookings/new.html.erb</p>
+<%= form_with model: @booking do |f| %>
+  <%= f.label :start_date %>
+  <%= f.number_field :start_date %>
+  <%= f.label :end_date %>
+  <%= f.number_field :end_date %>
+  <%= f.label :pickup_address %>
+  <%= f.text_field :pickup_address %>
+  <%= f.label :dropoff_address %>
+  <%= f.text_field :dropoff_address %>
+  <%= f.label :total_price %>
+  <%= f.number_field :total_price %>
+  <%= f.label :status %>
+  <%= f.text_field :status %>
+  <%= f.label :payment_status %>
+  <%= f.text_field :payment_status %>
+  <%= f.label :vehicle %>
+  <%= f.text_field :vehicle %>
+  <%= f.submit %>
+<% end %>
