@@ -1,24 +1,7 @@
 Rails.application.routes.draw do
-  get 'bookings/index'
-  get 'bookings/show'
-  get 'bookings/new'
-  get 'bookings/create'
-  get 'bookings/cancel'
-  get 'bookings/accept'
-  get 'bookings/reject'
-  get 'reviews/index'
-  get 'reviews/create'
-  get 'bookmarks/index'
-  get 'bookmarks/create'
-  get 'bookmarks/destroy'
-  get 'vehicles/index'
-  get 'vehicles/show'
-  get 'vehicles/new'
-  get 'vehicles/create'
-  get 'vehicles/edit'
-  get 'vehicles/update'
-  get 'vehicles/destroy'
-  get 'vehicles/nearby'
+  namespace :owner do
+    get 'bookings/index'
+  end
   root to: "vehicles#index"
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -47,23 +30,23 @@ Rails.application.routes.draw do
 
   # bookings
   # As a user, I can see my bookings (past & upcoming).
-  get "/bookings", to: "bookings#index"
+  get "/bookings", to: "bookings#index" , as: :bookings
   # As a user, I can see a booking page.,
-  get "/bookings/:id", to: "bookings#show"
+  get "/bookings/:id", to: "bookings#show", as: :booking
   # As a user, I can start a new booking on a vehicle.
-  get "/vehicles/:vehicle_id/bookings/new", to: "bookings#new", as: :new_booking
+  get "/vehicles/:vehicle_id/bookings/new", to: "bookings#new", as: :new_vehicle_booking
   post "/bookings", to: "bookings#create"
   # post "/vehicles/:vehicle_id/bookings/new", to: "bookings#create"
   # post "/vehicles/:vehicle_id/bookings", to: "bookings#create"
 
   # As a user, I can cancel my booking (if allowed)
   # get "/bookings/:id/cancel", to: "bookings#cancel"
-  patch "bookings/:id/cancel", to: "bookings#cancel"
+  patch "bookings/:id/cancel", to: "bookings#cancel",  as: :cancel_booking
   # post "/bookings/:id", to: "bookings#cancel", as: :cancel_booking
   # As a host, I can accept a booking request.
-  patch "bookings/:id/accept", to: "bookings#accept"
+  patch "bookings/:id/accept", to: "bookings#accept", as: :accept_booking
   # As a host, I can reject a booking request.
-  patch "bookings/:id/reject", to: "bookings#reject"
+  patch "bookings/:id/reject", to: "bookings#reject",  as: :reject_booking
   # As a host, I can see bookings for my vehicles.
   get "/owner/bookings", to: "owner/bookings#index"
   resources :vehicles do

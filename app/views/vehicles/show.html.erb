@@ -25,6 +25,14 @@
 </div>
 
 <hr>
+<h2>Book this <%= @vehicle.title %></h2>
+<%= simple_form_for [@vehicle, @booking] do |f| %>
+  <%= f.input :start_date %>
+  <%= f.input :end_date %>
+  <%= f.submit %>
+<% end %>
+<hr>
+
 <% if user_signed_in? && current_user.bookings.exists?(vehicle: @vehicle, status: "completed") %>
 <h3>Leave a Review</h3>
 <%= form_with(model: [@vehicle, @review]) do |f| %>
