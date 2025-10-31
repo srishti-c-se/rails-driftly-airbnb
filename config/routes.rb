@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get 'bookings/new'
   get 'bookings/create'
   get 'bookings/cancel'
-  patch 'bookings/accept'
+  get 'bookings/accept'
   get 'bookings/reject'
   get 'reviews/index'
   get 'reviews/create'
@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   get 'vehicles/update'
   get 'vehicles/destroy'
   get 'vehicles/nearby'
-  root to: "pages#home"
+  root to: "vehicles#index"
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -48,17 +48,18 @@ Rails.application.routes.draw do
   # bookings
   # As a user, I can see my bookings (past & upcoming).
   get "/bookings", to: "bookings#index"
-  # As a user, I can see a booking page.
+  # As a user, I can see a booking page.,
   get "/bookings/:id", to: "bookings#show"
   # As a user, I can start a new booking on a vehicle.
-  get "/vehicles/:vehicle_id/bookings/new", to: "bookings#new"
+  get "/vehicles/:vehicle_id/bookings/new", to: "bookings#new", as: :new_booking
   post "/bookings", to: "bookings#create"
   # post "/vehicles/:vehicle_id/bookings/new", to: "bookings#create"
   # post "/vehicles/:vehicle_id/bookings", to: "bookings#create"
 
   # As a user, I can cancel my booking (if allowed)
-  # patch "bookings/:id/cancel", to: "bookings#cancel"
-  post "/bookings/:id", to: "bookings#cancel"
+  # get "/bookings/:id/cancel", to: "bookings#cancel"
+  patch "bookings/:id/cancel", to: "bookings#cancel"
+  # post "/bookings/:id", to: "bookings#cancel", as: :cancel_booking
   # As a host, I can accept a booking request.
   patch "bookings/:id/accept", to: "bookings#accept"
   # As a host, I can reject a booking request.

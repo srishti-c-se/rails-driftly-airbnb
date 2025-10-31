@@ -1,18 +1,25 @@
 <%# <h1>Bookings#index</h1>
 <p>Find me in app/views/bookings/index.html.erb</p> %>
-<h1>My Bookings</h1>
-<ol>
+<%# <h1>My Bookings</h1> %>
+<%# <ul> %>
+<h3>My active bookings:</h3>
+<ul>
   <% @bookings.each do |booking| %>
     <li>
-      <%# <p><%= booking.booking_id %></p>
-      <p><%= booking.start_date %> to <%= booking.end_date %></p>
-      <p><%= booking.pickup_address %></p>
-      <p><%= booking.dropoff_address %></p>
-      <p><%= booking.total_price %></p>
-      <p><%= booking.status %></p>
-      <p><%= booking.payment_status %></p>
-      <p><%= booking.user.first_name %></p>
-      <p><%= booking.vehicle.title %></p>
+      <p>Booking ID: <%= booking.id %></p>
+      <p><%= link_to booking.vehicle.title, bookings_show_path(booking) %></p>
     </li>
   <% end %>
-</ol>
+</ul>
+
+<h3>Cancelled Bookings:</h3>
+<ul>
+  <% @bookings.each do |booking| %>
+    <% if booking.status == 'cancelled' %>
+      <li>
+          <p>Booking ID: <%= booking.id %></p>
+          <p><%= link_to booking.vehicle.title, bookings_show_path(booking) %></p>
+      </li>
+    <% end %>
+  <% end %>
+</ul>

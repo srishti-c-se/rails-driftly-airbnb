@@ -1,5 +1,5 @@
 <li>
-  <%# <%= booking.booking_id %>
+  <%= @booking.id %>
   <p><%= @booking.start_date %> to <%= @booking.end_date %></p>
   <p><%= @booking.pickup_address %></p>
   <p><%= @booking.dropoff_address %></p>
@@ -8,5 +8,10 @@
   <p><%= @booking.payment_status %></p>
   <p><%= @booking.user_id %></p>
   <p><%= @booking.vehicle.title %></p>
-  <%= button_to 'Cancel Booking', bookings_cancel_path(@booking) %>
 </li>
+<div>
+  <%= link_to 'Cancel Booking', bookings_cancel_path(@booking.id), method: :patch, Class: 'btn btn-primary' %>
+  <%= link_to 'Accept Booking', bookings_accept_path(@booking.id), method: :patch, Class: 'btn btn-primary' %>
+    <%= link_to 'Reject Booking', bookings_reject_path(@booking.id), method: :patch, Class: 'btn btn-primary' %>
+
+</div>
