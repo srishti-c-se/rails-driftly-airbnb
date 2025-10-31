@@ -37,6 +37,7 @@ class Owner::BookingsController < ApplicationController
     @booking = Booking.find(params[:id])
   end
 
+  # Only allow renter to manage bookings for their vehicles
   def authorize_renter!
     unless current_user.renter? && @booking.vehicle.user_id == current_user.id
       redirect_to root_path, alert: "Not authorized"
