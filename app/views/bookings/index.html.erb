@@ -1,0 +1,25 @@
+<%# <h1>Bookings#index</h1>
+<p>Find me in app/views/bookings/index.html.erb</p> %>
+<%# <h1>My Bookings</h1> %>
+<%# <ul> %>
+<h3>My active bookings:</h3>
+<ul>
+  <% @bookings.each do |booking| %>
+    <li>
+      <p>Booking ID: <%= booking.id %></p>
+      <p><%= link_to booking.vehicle.title, bookings_show_path(booking) %></p>
+    </li>
+  <% end %>
+</ul>
+
+<h3>Cancelled Bookings:</h3>
+<ul>
+  <% @bookings.each do |booking| %>
+    <% if booking.status == 'cancelled' %>
+      <li>
+          <p>Booking ID: <%= booking.id %></p>
+          <p><%= link_to booking.vehicle.title, bookings_show_path(booking) %></p>
+      </li>
+    <% end %>
+  <% end %>
+</ul>

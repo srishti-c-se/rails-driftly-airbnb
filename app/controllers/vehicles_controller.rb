@@ -5,6 +5,8 @@ class VehiclesController < ApplicationController
 
   def show
     @vehicle = Vehicle.find(params[:id])
+    @reviews = @vehicle.reviews.includes(:user)  # show reviews with users
+    @review = Review.new                         # to pass to the form
   end
 
   def new

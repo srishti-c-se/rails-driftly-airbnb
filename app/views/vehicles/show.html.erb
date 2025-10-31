@@ -14,13 +14,14 @@
 <p><%= @vehicle.description %>
 <p>Price per day: <%= @vehicle.price_per_day %></p>
 <div>
-  <%= link_to 'vehicles Index', vehicles_path, class: 'btn btn-primary' %>
+  <%= link_to 'Home Page', vehicles_path, class: 'btn btn-primary' %>
   <%= link_to 'Edit Details', edit_vehicle_path, Class: 'btn btn-primary' %>
   <%= link_to "Delete",
   vehicles_path(@vehicle),
   data: {turbo_method: :delete, turbo_confirm: "Are you sure?"},
   class: 'btn btn-primary'
 %>
+<<<<<<< HEAD
 <h2>Book this <%= @vehicle.title %></h2>
 <%= simple_form_for [@vehicle, @booking] do |f| %>
   <%= f.input :start_date %>
@@ -29,4 +30,46 @@
   <%= f.input :drop_off address %>
   <%= f.submit %>
 <% end %>
+=======
+  <%= link_to 'Book Vehicle', new_booking_path(@vehicle), Class: 'btn btn-primary' %>
+>>>>>>> 047dcf949bd622ba4d498a2fa6d20d396b16dca4
 </div>
+
+<hr>
+<% if user_signed_in? && current_user.bookings.exists?(vehicle: @vehicle, status: "completed") %>
+<h3>Leave a Review</h3>
+<%= form_with(model: [@vehicle, @review]) do |f| %>
+  <div>
+      <%= f.label :rating, "Rating (0–5)" %><br>
+      <%= f.number_field :rating, in: 0..5, required: true %>
+    </div>
+
+    <div>
+      <%= f.label :comment, "Comment (optional)" %><br>
+      <%= f.text_area :comment, rows: 3 %>
+    </div>
+
+    <%= f.submit "Submit Review", class: "btn btn-success" %>
+<% end %>
+<% elsif user_signed_in? %>
+  <p><em>You can only review this vehicle after completing a booking.</em></p>
+<% else %>
+  <p><%= link_to "Sign in to leave a review", new_user_session_path %></p>
+<% end %>
+
+<hr>
+<h2>Reviews</h2>
+<% if @reviews.any? %>
+  <% @reviews.each do |review| %>
+    <p>
+      <strong><%= review.user.first_name %>:</strong>
+      <%= "⭐" * review.rating %> (<%= review.rating %>/5)
+    </p>
+
+    <% if review.comment.present? %>
+      <p><%= review.comment %></p>
+    <% end %>
+  <% end %>
+<% else %>
+  <p>No reviews yet.</p>
+<% end %>
