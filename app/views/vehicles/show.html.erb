@@ -22,3 +22,42 @@
   class: 'btn btn-primary'
 %>
 </div>
+
+<hr>
+<% if user_signed_in? && current_user.bookings.exists?(vehicle: @vehicle, status: "completed") %>
+<h3>Leave a Review</h3>
+<%= form_with(model: [@vehicle, @review]) do |f| %>
+  <div>
+      <%= f.label :rating, "Rating (0–5)" %><br>
+      <%= f.number_field :rating, in: 0..5, required: true %>
+    </div>
+
+    <div>
+      <%= f.label :comment, "Comment (optional)" %><br>
+      <%= f.text_area :comment, rows: 3 %>
+    </div>
+
+    <%= f.submit "Submit Review", class: "btn btn-success" %>
+<% end %>
+<% elsif user_signed_in? %>
+  <p><em>You can only review this vehicle after completing a booking.</em></p>
+<% else %>
+  <p><%= link_to "Sign in to leave a review", new_user_session_path %></p>
+<% end %>
+
+<hr>
+<h2>Reviews</h2>
+<% if @reviews.any? %>
+  <% @reviews.each do |review| %>
+    <p>
+      <strong><%= review.user.first_name %>:</strong>
+      <%= "⭐" * review.rating %> (<%= review.rating %>/5)
+    </p>
+
+    <% if review.comment.present? %>
+      <p><%= review.comment %></p>
+    <% end %>
+  <% end %>
+<% else %>
+  <p>No reviews yet.</p>
+<% end %>

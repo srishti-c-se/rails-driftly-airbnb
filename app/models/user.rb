@@ -5,7 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   # VALIDATIONS
-  validates :first_name, :last_name, :email, :phone, presence: true
+  validates :first_name, :last_name, :email, :address, :phone, presence: true
   validates :email, uniqueness: true
   validates :phone, numericality: { only_integer: true }
 
@@ -30,4 +30,17 @@ class User < ApplicationRecord
            class_name: "Conversation",
            foreign_key: :recipient_id,
            dependent: :nullify
+
+  # Helper methods for roles
+  def renter?
+    admin == true
+  end
+
+  def user?
+    admin == false
+  end
+
+  def user_type
+    admin? ? "renter" : "user"
+  end
 end

@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get 'bookings/cancel'
   patch 'bookings/accept'
   get 'bookings/reject'
+  get 'reviews/index'
+  get 'reviews/create'
   get 'bookmarks/index'
   get 'bookmarks/create'
   get 'bookmarks/destroy'
@@ -53,7 +55,7 @@ Rails.application.routes.draw do
   post "/bookings", to: "bookings#create"
   # post "/vehicles/:vehicle_id/bookings/new", to: "bookings#create"
   # post "/vehicles/:vehicle_id/bookings", to: "bookings#create"
-  
+
   # As a user, I can cancel my booking (if allowed)
   # patch "bookings/:id/cancel", to: "bookings#cancel"
   post "/bookings/:id", to: "bookings#cancel"
@@ -63,4 +65,9 @@ Rails.application.routes.draw do
   patch "bookings/:id/reject", to: "bookings#reject"
   # As a host, I can see bookings for my vehicles.
   get "/owner/bookings", to: "owner/bookings#index"
+  resources :vehicles do
+    resources :reviews, only: [:index, :create]
+    # get  '/vehicles/:vehicle_id/reviews', to: 'reviews#index', as: :vehicle_reviews
+    # post '/vehicles/:vehicle_id/reviews', to: 'reviews#create'
+  end
 end
