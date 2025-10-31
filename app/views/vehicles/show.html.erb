@@ -1,56 +1,65 @@
-<%# <h1>Vehicles#show</h1>
-<p>Find me in app/views/vehicles/show.html.erb</p> %>
 <h1><%= @vehicle.title %></h1>
+
 <h2>Vehicle Details:</h2>
 <p>
-  <%= @vehicle.brand %>
-  <%= @vehicle.model %>
-  <%= @vehicle.year %>
+  <strong>Brand:</strong> <%= @vehicle.brand %><br>
+  <strong>Model:</strong> <%= @vehicle.model %><br>
+  <strong>Year:</strong> <%= @vehicle.year %>
 </p>
-<p><%= @vehicle.address %></p>
-<p><%= @vehicle.seats %></p>
-<p><%= @vehicle.transmission %></p>
-<p><%= @vehicle.fuel_type %></p>
-<p><%= @vehicle.description %>
-<p>Price per day: <%= @vehicle.price_per_day %></p>
-<div>
+<p><strong>Address:</strong> <%= @vehicle.address %></p>
+<p><strong>Seats:</strong> <%= @vehicle.seats %></p>
+<p><strong>Transmission:</strong> <%= @vehicle.transmission %></p>
+<p><strong>Fuel Type:</strong> <%= @vehicle.fuel_type %></p>
+<p><strong>Description:</strong> <%= @vehicle.description %></p>
+<p><strong>Price per day:</strong> <%= @vehicle.price_per_day %></p>
+
+<div class="mb-3">
   <%= link_to 'Home Page', vehicles_path, class: 'btn btn-primary' %>
-  <%= link_to 'Edit Details', edit_vehicle_path, Class: 'btn btn-primary' %>
-  <%= link_to "Delete",
-  vehicles_path(@vehicle),
-  data: {turbo_method: :delete, turbo_confirm: "Are you sure?"},
-  class: 'btn btn-primary'
-%>
-<<<<<<< HEAD
+  <%= link_to 'Edit Details', edit_vehicle_path(@vehicle), class: 'btn btn-warning' %>
+  <%= link_to 'Delete', vehicle_path(@vehicle),
+      data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+      class: 'btn btn-danger' %>
+</div>
+
+<hr>
+
 <h2>Book this <%= @vehicle.title %></h2>
 <%= simple_form_for [@vehicle, @booking] do |f| %>
   <%= f.input :start_date %>
   <%= f.input :end_date %>
-  <%= f.input :pick_up address %>
-  <%= f.input :drop_off address %>
   <%= f.submit %>
 <% end %>
-=======
-  <%= link_to 'Book Vehicle', new_booking_path(@vehicle), Class: 'btn btn-primary' %>
->>>>>>> 047dcf949bd622ba4d498a2fa6d20d396b16dca4
-</div>
+
+
+
+<% if @bookings.exists? %>
+  <h2>Your bookings</h2>
+  <ul>
+    <% @bookings.each do |booking| %>
+      <li>
+        <%= link_to "#{booking.start_date.strftime("%a %b %e")} - #{booking.end_date.strftime("%a %b %e")}", booking %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
 
 <hr>
+
 <% if user_signed_in? && current_user.bookings.exists?(vehicle: @vehicle, status: "completed") %>
-<h3>Leave a Review</h3>
-<%= form_with(model: [@vehicle, @review]) do |f| %>
-  <div>
+  <h3>Leave a Review</h3>
+  <%= form_with(model: [@vehicle, @review]) do |f| %>
+    <div class="mb-2">
       <%= f.label :rating, "Rating (0–5)" %><br>
-      <%= f.number_field :rating, in: 0..5, required: true %>
+      <%= f.number_field :rating, in: 0..5, required: true, class: "form-control" %>
     </div>
 
-    <div>
+    <div class="mb-2">
       <%= f.label :comment, "Comment (optional)" %><br>
-      <%= f.text_area :comment, rows: 3 %>
+      <%= f.text_area :comment, rows: 3, class: "form-control" %>
     </div>
 
     <%= f.submit "Submit Review", class: "btn btn-success" %>
-<% end %>
+  <% end %>
 <% elsif user_signed_in? %>
   <p><em>You can only review this vehicle after completing a booking.</em></p>
 <% else %>
@@ -58,6 +67,7 @@
 <% end %>
 
 <hr>
+
 <h2>Reviews</h2>
 <% if @reviews.any? %>
   <% @reviews.each do |review| %>

@@ -1,7 +1,7 @@
 class Booking < ApplicationRecord
   belongs_to :user
   belongs_to :vehicle
-
+  has_many   :messages, as: :threadable, dependent: :destroy
 
   enum status: {
     pending:   0,
@@ -24,5 +24,4 @@ class Booking < ApplicationRecord
     return if start_date.blank? || end_date.blank?
     errors.add(:end_date, "must be after start date")  if end_date <= start_date
   end
-
 end
