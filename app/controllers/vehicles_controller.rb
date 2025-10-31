@@ -15,8 +15,12 @@ class VehiclesController < ApplicationController
 
   def create
     @vehicle = Vehicle.new(vehicle_params)
-    @vehicle.save
-    redirect_to vehicles_path(@vehicles), notice: 'Vehicle was successfully added.'
+    @vehicle.user = current_user
+    if @vehicle.save
+      redirect_to vehicles_path, notice: 'Vehicle was successfully added.'
+    else
+      redirect_to vehicles_path, notice: "#{@vehicle.errors.full_messages.join(', ')}"
+    end
   end
 
   def edit
@@ -30,9 +34,9 @@ class VehiclesController < ApplicationController
   end
 
   def destroy
-    @vehicle = Vehicle.find(params[:id])
+    @vehicle = Vehicle.find(params[:format])
     @vehicle.destroy
-    redirect_to vehicles_path, status: :see_other, notice: 'Vehicle was deleted.'
+    redirect_to vehicles_path, notice: 'Vehicle was deleted.'
   end
 
   def nearby
