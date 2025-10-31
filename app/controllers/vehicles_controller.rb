@@ -36,7 +36,7 @@ class VehiclesController < ApplicationController
   end
 
   def nearby
-
+    
   end
 
   private
