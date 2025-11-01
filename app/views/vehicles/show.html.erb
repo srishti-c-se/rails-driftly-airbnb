@@ -10,9 +10,9 @@
 <p><%= @vehicle.transmission %></p>
 <p><%= @vehicle.fuel_type %></p>
 <p><%= @vehicle.description %></p>
-<p>Price per day: <%= @vehicle.price_per_day %></p>
 <%# checking user type (owner/user) for different UI %>
 
+<%= link_to "Homepage", root_path, class: "btn btn-secondary" %>
 <hr>
 <% if current_user.renter? %>
 <%# display home, edit and delete button to owner %>
