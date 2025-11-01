@@ -2,7 +2,6 @@
 <p>Find me in app/views/vehicles/edit.html.erb</p> %>
 
 <%= form_with model: @vehicle, url: vehicle_path(@vehicle), method: :patch do |f| %>
-  <%# <%= form_with model: @vehicle do |f| %>
   <div>
     <%= f.label :title %>
     <%= f.text_field :title %>

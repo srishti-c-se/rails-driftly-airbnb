@@ -1,0 +1,59 @@
+<h1>My Vehicle Bookings</h1>
+
+<h2>Pending Bookings</h2>
+<% @bookings.each do |booking| %>
+  <% if booking.pending? %>
+    <p>
+      Vehicle: <%= link_to booking.vehicle.title, vehicle_path(booking.vehicle) %><br>
+      Booked by: <%= booking.user.first_name %> <%= booking.user.last_name %><br>
+      From: <%= booking.start_date %> to <%= booking.end_date %><br>
+      Status: <%= booking.status.capitalize %><br>
+      Price: <%= booking.total_price %>
+    </p>
+    <%= link_to "Accept", accept_booking_path(booking), method: :patch, class: "btn btn-success" %> |
+    <%= link_to "Reject", reject_booking_path(booking), method: :patch, class: "btn btn-danger" %>
+    <hr>
+  <% end %>
+<% end %>
+
+<h2>Accepted Bookings</h2>
+<% @bookings.each do |booking| %>
+  <% if booking.accepted? %>
+    <p>
+      Vehicle: <%= link_to booking.vehicle.title, vehicle_path(booking.vehicle) %><br>
+      Booked by: <%= booking.user.first_name %> <%= booking.user.last_name %><br>
+      From: <%= booking.start_date %> to <%= booking.end_date %><br>
+      Status: <%= booking.status.capitalize %><br>
+      Price: <%= booking.total_price %>
+    </p>
+    <hr>
+  <% end %>
+<% end %>
+
+<h2>Rejected Bookings</h2>
+<% @bookings.each do |booking| %>
+  <% if booking.rejected? %>
+    <p>
+      Vehicle: <%= link_to booking.vehicle.title, vehicle_path(booking.vehicle) %><br>
+      Booked by: <%= booking.user.first_name %> <%= booking.user.last_name %><br>
+      From: <%= booking.start_date %> to <%= booking.end_date %><br>
+      Status: <%= booking.status.capitalize %><br>
+      Price: <%= booking.total_price %>
+    </p>
+    <hr>
+  <% end %>
+<% end %>
+
+<h2>Cancelled Bookings</h2>
+<% @bookings.each do |booking| %>
+  <% if booking.cancelled? %>
+    <p>
+      Vehicle: <%= link_to booking.vehicle.title, vehicle_path(booking.vehicle) %><br>
+      Booked by: <%= booking.user.first_name %><br>
+      From: <%= booking.start_date %> to <%= booking.end_date %><br>
+      Status: Cancelled<br>
+      Price: <%= booking.total_price %>
+    </p>
+    <hr>
+  <% end %>
+<% end %>

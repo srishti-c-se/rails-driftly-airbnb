@@ -1,8 +1,11 @@
 class BookingsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_booking, only: [:show, :cancel]
   before_action :set_vehicle, only: [:new, :create]
-  before_action :set_booking, only: [:show]
+  before_action :authorize_user!, only: [:cancel]
+
   def index
-    @bookings = Booking.all
+    @bookings = current_user.bookings
   end
 
   def show
@@ -11,46 +14,33 @@ class BookingsController < ApplicationController
   end
 
   def new
-    @booking = Booking.new
+    # directly attached it to a specific vehicle
+    @booking = @vehicle.bookings.new
   end
 
   def create
-    @vehicle = Vehicle.find(params[:vehicle_id])
-    @booking = Booking.new(booking_params)
-    @booking.vehicle = @vehicle
+    @booking = @vehicle.bookings.new(booking_params)
     @booking.user = current_user
+    @booking.status = :pending
+    @booking.payment_status = :unpaid
     if @booking.save
-      redirect_to vehicle_path(@vehicle), notice: 'Vehicle was successfully added.'
+      redirect_to booking_path(@booking), notice: "Booking requested successfully!"
     else
-      redirect_to vehicle_path, notice: "#{@vehicle.errors.full_messages.join(', ')}"
+      flash.now[:alert] = @booking.errors.full_messages.to_sentence
+      render :new, status: :unprocessable_entity
     end
   end
 
   def cancel
-    # find booking to be cancelled
-    @booking = Booking.find(params[:format])
-    # change booking status to cancel
-    @booking.update(status: 'cancelled')
-    redirect_to bookings_index_path, notice: 'Booking cancelled!'
-  end
-
-  def accept
-    @booking = Booking.find(params[:format])
-    @booking.update(status: 'accepted')
-    redirect_to bookings_index_path, notice: 'Booking accepted'
-  end
-
-  def reject
-    @booking = Booking.find(params[:format])
-    @booking.update(status: 'rejected')
-    redirect_to bookings_index_path, notice: 'Booking rejected'
+    if @booking.pending? || @booking.accepted?
+      @booking.update(status: :cancelled)
+      redirect_to bookings_path, notice: "Booking cancelled successfully."
+    else
+      redirect_to bookings_path, alert: "Cannot cancel this booking."
+    end
   end
 
   private
-
-  def booking_params
-    params.require(:booking).permit(:date, :start_date, :end_date, :pick_up_address, :dropoff_address, :total_price, :status, :payment_status, :vehicle_is, :user_id )
-  end
 
   def set_vehicle
     @vehicle = Vehicle.find(params[:vehicle_id])
@@ -59,5 +49,14 @@ class BookingsController < ApplicationController
   def set_booking
     @booking = Booking.find(params[:id])
     @vehicle = @booking.vehicle
+  end
+
+  def booking_params
+    params.require(:booking).permit(:start_date, :end_date, :pickup_address, :dropoff_address)
+  end
+
+  # Ensure only the user who created the booking can cancel it
+  def authorize_user!
+    redirect_to bookings_path, alert: "Not authorized" unless @booking.user == current_user
   end
 end
