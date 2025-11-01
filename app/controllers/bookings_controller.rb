@@ -1,5 +1,4 @@
 class BookingsController < ApplicationController
-
   before_action :authenticate_user!
   before_action :set_booking, only: [:show, :cancel]
   before_action :set_vehicle, only: [:new, :create]
@@ -10,6 +9,9 @@ class BookingsController < ApplicationController
   end
 
   def show
+    @booking = Booking.find(params[:id])
+    @message = Message.new
+    @messages = @booking.messages
   end
 
   def new
@@ -22,7 +24,6 @@ class BookingsController < ApplicationController
     @booking.user = current_user
     @booking.status = :pending
     @booking.payment_status = :unpaid
-    # @booking.total_price = @booking.calculate_total_price
     if @booking.save
       redirect_to booking_path(@booking), notice: "Booking requested successfully!"
     else
@@ -32,22 +33,20 @@ class BookingsController < ApplicationController
   end
 
   def cancel
-    if @booking.pending? || @booking.accepted?
-      @booking.update(status: :cancelled)
-      redirect_to bookings_path, notice: "Booking cancelled successfully."
-    else
-      redirect_to bookings_path, alert: "Cannot cancel this booking."
-    end
+    @booking = Booking.find(params[:id])
+    @booking.update(status: "cancelled")
+    redirect_to bookings_path, notice: "Booking cancelled successfully."
   end
 
   private
 
-  def set_booking
-    @booking = Booking.find(params[:id])
-  end
-
   def set_vehicle
     @vehicle = Vehicle.find(params[:vehicle_id])
+  end
+
+  def set_booking
+    @booking = Booking.find(params[:id])
+    @vehicle = @booking.vehicle
   end
 
   def booking_params

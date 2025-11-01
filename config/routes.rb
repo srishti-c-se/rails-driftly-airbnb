@@ -21,12 +21,12 @@ Rails.application.routes.draw do
   get "/vehicles/:id", to: "vehicles#show", as: :vehicle
   post "/vehicles", to: "vehicles#create"
   # Renter can update vehicle details
-  get "/vehicles/:id/edit", to: "vehicles#edit", as: :edit_vehicle
-  patch "/vehicles/:id", to: "vehicles#update"
+  # get "/vehicles/:id/edit", to: "vehicles#edit", as: :edit_vehicle
+  # patch "/vehicles/:id", to: "vehicles#update"
   # Renter can delete a vehicle listing
   delete "vehicles/:id", to: "vehicles#destroy", as: :destroy_vehicle
   # User can view vehicles near his location
-  get "/vehicles/nearby", to: "vehicles#nearby"
+  # get "/vehicles/nearby", to: "vehicles#nearby"
 
   # bookings
   # As a user, I can see my bookings (past & upcoming).
@@ -52,10 +52,16 @@ Rails.application.routes.draw do
   # As a host, I can reject a booking request.
   patch "bookings/:id/reject", to: "bookings#reject",  as: :reject_booking
   # As a host, I can see bookings for my vehicles.
-  get "/owner/bookings", to: "owner/bookings#index"
+  # get "/owner/bookings", to: "owner/bookings#index"
   resources :vehicles do
+    resources :bookings, only: [:create, :index]
+  end
+  resources :bookings do
+    # resources :messages, only: :create
+    resources :messages, only: [:create, :update, :show]
     resources :reviews, only: [:index, :create]
+  end
+
     # get  '/vehicles/:vehicle_id/reviews', to: 'reviews#index', as: :vehicle_reviews
     # post '/vehicles/:vehicle_id/reviews', to: 'reviews#create'
-  end
 end

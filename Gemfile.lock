@@ -274,6 +274,8 @@ GEM
     simple_form (5.4.0)
       actionpack (>= 7.0)
       activemodel (>= 7.0)
+    solid_cable (1.0.3)
+      rails (< 9)
     sprockets (4.2.2)
       concurrent-ruby (~> 1.0)
       logger
@@ -346,6 +348,7 @@ DEPENDENCIES
   sassc-rails
   selenium-webdriver
   simple_form
+  solid_cable
   sprockets-rails
   sqlite3 (>= 1.4)
   stimulus-rails
