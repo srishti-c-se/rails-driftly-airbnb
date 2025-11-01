@@ -1,35 +1,45 @@
-<li>
-  <%= @booking.id %>
-  <p><%= @booking.start_date %> to <%= @booking.end_date %></p>
-  <p><%= @booking.pickup_address %></p>
-  <p><%= @booking.dropoff_address %></p>
-  <p><%= @booking.total_price %></p>
-  <p><%= @booking.status %></p>
-  <p><%= @booking.payment_status %></p>
-  <p><%= @booking.user_id %></p>
-  <p><%= @booking.vehicle.title %></p>
-</li>
-<div>
-  <%= link_to 'Cancel Booking', bookings_cancel_path(@booking.id), method: :patch, Class: 'btn btn-primary' %>
-  <%= link_to 'Accept Booking', bookings_accept_path(@booking.id), method: :patch, Class: 'btn btn-primary' %>
-    <%= link_to 'Reject Booking', bookings_reject_path(@booking.id), method: :patch, Class: 'btn btn-primary' %>
-</div>
+<h1>Booking Details</h1>
 
-  <div class="container chat">
-    <h1>Your booking for <%= @booking.vehicle.title %></h1>
+<p><strong>Vehicle:</strong> <%= @booking.vehicle.title %></p>
+<p><strong>Start Date:</strong> <%= @booking.start_date %></p>
+<p><strong>End Date:</strong> <%= @booking.end_date %></p>
+<p><strong>Pickup Address:</strong> <%= @booking.pickup_address %></p>
+<p><strong>Dropoff Address:</strong> <%= @booking.dropoff_address %></p>
+<p><strong>Total Price:</strong> <%= @booking.total_price %></p>
+<p><strong>Status:</strong> <%= @booking.status&.capitalize %></p>
+<p><strong>Payment Status:</strong> <%= @booking.payment_status&.capitalize %></p>
 
-    <%= turbo_stream_from "thread_Booking_#{@booking.id}_messages" %>
-    <div id="messages" class="messages">
-      <% @booking.messages.each do |message| %>
-        <%= render "messages/message", message: message %>
-      <% end %>
-    </div>
+<% if @booking.pending? || @booking.accepted? %>
+  <%= link_to "Cancel Booking",
+              cancel_booking_path(@booking),
+              data: { turbo_method: :patch, turbo_confirm: "Are you sure?" },
+              class: "btn btn-warning" %>
+<% end %>
 
-    <div>
+<%= link_to "Back to My Bookings", bookings_path, class: "btn btn-primary" %>
 
+<hr>
+
+<div class="container chat">
+  <h1>Your booking for <%= @booking.vehicle.title %></h1>
+
+  <%= turbo_stream_from "thread_Booking_#{@booking.id}_messages" %>
+
+  <div id="messages" class="messages">
+    <% @booking.messages.each do |message| %>
+      <%= render "messages/message", message: message %>
+    <% end %>
+  </div>
+
+  <div class="message-form mt-3">
     <%= simple_form_for [@booking, @message],
-      html: { class: "d-flex",
-              data: { controller: "reset-form", action: "turbo:submit-end->reset-form#reset" } } do |f| %>
+      html: {
+        class: "d-flex gap-2",
+        data: {
+          controller: "reset-form",
+          action: "turbo:submit-end->reset-form#reset"
+        }
+      } do |f| %>
 
       <% other_user = current_user == @booking.vehicle.user ? @booking.user : @booking.vehicle.user %>
 
@@ -39,21 +49,6 @@
         wrapper_html: { class: "flex-grow-1" } %>
 
       <%= f.submit "Send", class: "btn btn-primary mb-3" %>
-
     <% end %>
-<h1>Booking Details</h1>
-
-<p><strong>Vehicle:</strong> <%= @booking.vehicle.title %></p>
-<p><strong>Start Date:</strong> <%= @booking.start_date %></p>
-<p><strong>End Date:</strong> <%= @booking.end_date %></p>
-<p><strong>Pickup Address:</strong> <%= @booking.pickup_address %></p>
-<p><strong>Dropoff Address:</strong> <%= @booking.dropoff_address %></p>
-<p><strong>Total Price:</strong> <%= @booking.total_price %></p>
-<p><strong>Status:</strong> <%= @booking.status.capitalize %></p>
-<p><strong>Payment Status:</strong> <%= @booking.payment_status.capitalize %></p>
-
-<% if @booking.pending? || @booking.accepted? %>
-  <%= link_to "Cancel Booking", cancel_booking_path(@booking), method: :patch, data: { confirm: "Are you sure?" }, class: "btn btn-warning" %>
-<% end %>
-
-<%= link_to "Back to My Bookings", bookings_path, class: "btn btn-primary" %>
+  </div>
+</div>

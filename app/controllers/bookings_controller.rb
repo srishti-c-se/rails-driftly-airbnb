@@ -11,6 +11,7 @@ class BookingsController < ApplicationController
   def show
     @booking = Booking.find(params[:id])
     @message = Message.new
+    @messages = @booking.messages
   end
 
   def new
@@ -32,12 +33,9 @@ class BookingsController < ApplicationController
   end
 
   def cancel
-    if @booking.pending? || @booking.accepted?
-      @booking.update(status: :cancelled)
-      redirect_to bookings_path, notice: "Booking cancelled successfully."
-    else
-      redirect_to bookings_path, alert: "Cannot cancel this booking."
-    end
+    @booking = Booking.find(params[:id])
+    @booking.update(status: "cancelled")
+    redirect_to bookings_path, notice: "Booking cancelled successfully."
   end
 
   private

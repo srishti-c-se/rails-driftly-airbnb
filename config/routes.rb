@@ -59,6 +59,7 @@ Rails.application.routes.draw do
   resources :bookings do
     # resources :messages, only: :create
     resources :messages, only: [:create, :update, :show]
+    resources :reviews, only: [:index, :create]
   end
 
     # get  '/vehicles/:vehicle_id/reviews', to: 'reviews#index', as: :vehicle_reviews
