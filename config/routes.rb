@@ -73,8 +73,9 @@ Rails.application.routes.draw do
   resources :vehicles do
     resources :bookings, only: [:create, :index]
   end
-  resources :bookings, only: [:show] do
-    resources :messages, only: [:create]
+  resources :bookings do
+    # resources :messages, only: :create
+    resources :messages, only: [:create, :update, :show]
   end
 
     # get  '/vehicles/:vehicle_id/reviews', to: 'reviews#index', as: :vehicle_reviews

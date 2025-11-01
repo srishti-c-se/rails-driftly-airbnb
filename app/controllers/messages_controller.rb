@@ -10,11 +10,15 @@ class MessagesController < ApplicationController
           render turbo_stream: turbo_stream.append(:messages, partial: "messages/message",
             locals: { message: @message })
         end
-        format.html { redirect_to booking_path(@booking) }
+        format.html { render "bookings/show", status: :see_other }
       end
     else
       render "bookings/show", status: :unprocessable_entity
     end
+  end
+
+  def update
+    
   end
 
   private

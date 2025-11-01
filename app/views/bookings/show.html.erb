@@ -26,26 +26,20 @@
     </div>
 
     <div>
-  <%= simple_form_for(
-        [@booking, @message],
-        html: {
-          class: "d-flex",
-          data: {
-            controller: "reset-form",
-            action: "turbo:submit-end->reset-form#reset"
-          }
-        }
-      ) do |f| %>
 
-    <% other_user = current_user == @booking.vehicle.user ? @booking.user : @booking.vehicle.user %>
+    <%= simple_form_for [@booking, @message],
+      html: { class: "d-flex",
+              data: { controller: "reset-form", action: "turbo:submit-end->reset-form#reset" } } do |f| %>
 
-    <%= f.input :body,
-      label: false,
-      placeholder: "Message #{other_user.first_name}",
-      wrapper_html: { class: "flex-grow-1" }
-    %>
+      <% other_user = current_user == @booking.vehicle.user ? @booking.user : @booking.vehicle.user %>
 
-    <%= f.submit "Send", class: "btn btn-primary mb-3" %>
+      <%= f.input :body,
+        label: false,
+        placeholder: "Message #{other_user.first_name}",
+        wrapper_html: { class: "flex-grow-1" } %>
 
-  <% end %>
+      <%= f.submit "Send", class: "btn btn-primary mb-3" %>
+
+    <% end %>
+
 </div>
