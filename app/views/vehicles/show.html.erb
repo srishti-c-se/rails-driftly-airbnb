@@ -1,4 +1,3 @@
-<%# displaying vehicles details %>
 <h1><%= @vehicle.title %></h1>
 <h2>Vehicle Details:</h2>
 <p>
@@ -13,6 +12,8 @@
 <p><%= @vehicle.description %></p>
 <p>Price per day: <%= @vehicle.price_per_day %></p>
 <%# checking user type (owner/user) for different UI %>
+
+<hr>
 <% if current_user.renter? %>
 <%# display home, edit and delete button to owner %>
   <div>
@@ -20,8 +21,19 @@
       <%= link_to 'Edit', edit_vehicle_path, Class: 'btn btn-primary' %>
       <%= link_to "Delete", vehicles_destroy_path(@vehicle), method: :delete, Class: 'btn btn-primary'%>
       <%# else display request booking to user %>
-  <% else %>
-      <%= link_to 'Request Booking', new_booking_path(@vehicle), Class: 'btn btn-primary' %>
+   <div>
+<% else %>
+  <h2>Book this <%= @vehicle.title %></h2>
+  <%= simple_form_for [@vehicle, @booking] do |f| %>
+    <%= f.input :start_date, as: :date, required: true %>
+    <%= f.input :end_date, as: :date, required: true %>
+    <%= f.input :pickup_address, required: true %>
+    <%= f.input :dropoff_address, required: true %>
+
+    <p>Total price will be calculated automatically.</p>
+
+    <%= f.button :submit, "Request Booking", class: "btn btn-primary" %>
+  <% end %>
 
   <hr>
   <% if user_signed_in? && current_user.bookings.exists?(vehicle: @vehicle, status: "completed") %>

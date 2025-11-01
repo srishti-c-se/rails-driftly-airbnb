@@ -1,25 +1,38 @@
-<%# <h1>Bookings#index</h1>
-<p>Find me in app/views/bookings/index.html.erb</p> %>
-<%# <h1>My Bookings</h1> %>
-<%# <ul> %>
-<h3>My active bookings:</h3>
-<ul>
-  <% @bookings.each do |booking| %>
-    <li>
-      <p>Booking ID: <%= booking.id %></p>
-      <p><%= link_to booking.vehicle.title, bookings_show_path(booking) %></p>
-    </li>
-  <% end %>
-</ul>
+<h1>My Bookings</h1>
 
-<h3>Cancelled Bookings:</h3>
-<ul>
-  <% @bookings.each do |booking| %>
-    <% if booking.status == 'cancelled' %>
-      <li>
-          <p>Booking ID: <%= booking.id %></p>
-          <p><%= link_to booking.vehicle.title, bookings_show_path(booking) %></p>
-      </li>
-    <% end %>
+<h2>Active Bookings</h2>
+<% @bookings.each do |b| %>
+  <% if b.pending? || b.accepted? %>
+    Vehicle: <%= link_to b.vehicle.title, booking_path(b) %> |
+    Start: <%= b.start_date %> |
+    End: <%= b.end_date %> |
+    Status: <%= b.status.capitalize %> |
+    Price: <%= b.total_price %> |
+    <%= link_to "Cancel", cancel_booking_path(b), method: :patch, data: { confirm: "Are you sure?" } %>
+    <br>
   <% end %>
-</ul>
+<% end %>
+
+<h2>Completed Bookings</h2>
+<% @bookings.each do |b| %>
+  <% if b.completed? %>
+    Vehicle: <%= link_to b.vehicle.title, booking_path(b) %> |
+    Start: <%= b.start_date %> |
+    End: <%= b.end_date %> |
+    Status: Completed |
+    Price: <%= b.total_price %>
+    <br>
+  <% end %>
+<% end %>
+
+<h2>Cancelled Bookings</h2>
+<% @bookings.each do |b| %>
+  <% if b.cancelled? %>
+    Vehicle: <%= link_to b.vehicle.title, booking_path(b) %> |
+    Start: <%= b.start_date %> |
+    End: <%= b.end_date %> |
+    Status: Cancelled |
+    Price: <%= b.total_price %>
+    <br>
+  <% end %>
+<% end %>
