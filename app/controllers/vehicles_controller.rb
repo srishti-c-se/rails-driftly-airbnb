@@ -1,14 +1,15 @@
 class VehiclesController < ApplicationController
+  before_action :set_vehicle, only: [:new, :create]
   def index
     @vehicles = Vehicle.all
   end
 
   def show
     @vehicle = Vehicle.find(params[:id])
-    @reviews = @vehicle.reviews.includes(:user)  # show reviews with users
-    @review = Review.new
-    # Only normal users see the booking form
-    @booking = @vehicle.bookings.new
+    @booking = Booking.new
+    @bookings = @vehicle.bookings.where(user: current_user)
+    @reviews = @vehicle.reviews.includes(:user) # show reviews with users
+    @review = Review.new # to pass to the form
   end
 
   def new
@@ -42,10 +43,13 @@ class VehiclesController < ApplicationController
   end
 
   def nearby
-
   end
 
   private
+
+  def set_vehicle
+    @vehicle = Vehicle.find(params[:id])
+  end
 
   def vehicle_params
     params.require(:vehicle).permit(:title, :brand, :model, :year, :address, :price_per_day, :seats, :transmission, :fuel_type, :description)

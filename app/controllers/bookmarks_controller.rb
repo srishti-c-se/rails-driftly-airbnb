@@ -1,4 +1,6 @@
 class BookmarksController < ApplicationController
+  before_action :set_vehicle
+  before_action :authenticate_user!
   def index
     @bookmarks = Bookmark.all
   end
@@ -15,13 +17,12 @@ class BookmarksController < ApplicationController
   def destroy
     @bookmark = Bookmark.find(params[:id])
     @bookmark.destroy
-  # No need for app/views/restaurants/destroy.html.erb
-  redirect_to bookmarks_path, status: :see_other
+    redirect_to bookmarks_path, status: :see_other
   end
-end
 
-private
+  private
 
-def bookmark_params
-  params.require(:bookmark).permit(:name, :address, :rating)
+  def bookmark_params
+    params.require(:bookmark).permit(:name, :address, :rating)
+  end
 end

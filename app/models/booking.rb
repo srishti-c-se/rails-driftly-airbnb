@@ -1,6 +1,7 @@
 class Booking < ApplicationRecord
   belongs_to :user
   belongs_to :vehicle
+  has_many   :messages, as: :threadable, dependent: :destroy
   has_one :review, dependent: :destroy # The review belongs to that one booking.
 
   enum status: {
